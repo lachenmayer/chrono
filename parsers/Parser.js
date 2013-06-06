@@ -30,7 +30,7 @@
 
 */
 
-(function () {
+(function() {
 
   /**
    * Parser - Create a parser object
@@ -56,7 +56,7 @@
      *
      * @return { CNParser } 
      */
-    parser.pattern = function () {
+    parser.pattern = function() {
       return (/./i);
     };
 
@@ -67,7 +67,7 @@
      * @param  { Integer }   index  - Pattern matching index
      * @return { CNResult } 
      */
-    parser.extract = function (text, index) {
+    parser.extract = function(text, index) {
       return null;
     };
 
@@ -75,7 +75,7 @@
      * Parser.results - Get results
      * @return { Array<CNParser> } 
      */
-    parser.results = function () {
+    parser.results = function() {
       return searchingResults;
     };
 
@@ -83,7 +83,7 @@
      * Parser.finished - Check whether all of the text has been parsed 
      * @return { Bool } 
      */
-    parser.finished = function () {
+    parser.finished = function() {
       return searchingFinished;
     };
 
@@ -95,7 +95,7 @@
      * @param  { CNResult } result2
      * @return { CNResult } 
      */
-    parser.checkOverlapResult = function (text, result1, result2) {
+    parser.checkOverlapResult = function(text, result1, result2) {
       if (result1.end || result2.end) return null;
       var begin = result1.index + result1.text.length;
       var end = result2.index;
@@ -130,7 +130,7 @@
      * @param  { CNResult } result
      * @return { CNResult } 
      */
-    parser.extractTime = function (text, result) {
+    parser.extractTime = function(text, result) {
 
       var SUFFIX_PATTERN = /\s*(at)?\s*([0-9]{1,2})((\.|\:|\：)([0-9]{1,2})((\.|\:|\：)([0-9]{1,2}))?)?(\s*(AM|PM))?/i;
       var TO_SUFFIX_PATTERN = /\s*(\-|\~|\〜|to)?\s*([0-9]{1,2})((\.|\:|\：)([0-9]{1,2})((\.|\:|\：)([0-9]{1,2}))?)?(\s*(AM|PM))?/i;
@@ -191,13 +191,13 @@
 
       //Time in RANGE format. 
       // Calculate the END point...
-      var minute = 0;
-      var second = 0;
-      var hour = matchedTokens[2];
-      hour = parseInt(hour);
+      minute = 0;
+      second = 0;
+      hour = matchedTokens[2];
+      hour = parseInt(hour, 10);
 
       if (matchedTokens[10]) {
-        //AM & PM  
+        //AM & PM
         if (hour > 12) return null;
         if (matchedTokens[10].toLowerCase() == "pm") {
           hour += 12;
@@ -205,16 +205,14 @@
       }
 
       if (matchedTokens[5]) {
-
         minute = matchedTokens[5];
-        minute = parseInt(minute);
+        minute = parseInt(minute, 10);
         if (minute >= 60) return null;
       }
 
       if (matchedTokens[8]) {
-
         second = matchedTokens[8];
-        second = parseInt(second);
+        second = parseInt(second, 10);
         if (second >= 60) return null;
       }
 
@@ -232,7 +230,7 @@
       }
 
       return new chrono.ParseResult(result);
-    }
+    };
 
     /**
      * Parser.extractConcordance
@@ -240,34 +238,42 @@
      * @param  { CNResult } result
      * @return { CNResult } 
      */
-    parser.extractConcordance = function (text, result) {
+    parser.extractConcordance = function(text, result) {
 
       var conLength = 30;
 
-      preText = text.substr(0, result.index)
+      preText = text.substr(0, result.index);
       preText = preText.replace(/(\r\n|\n|\r)/gm, " ");
       preText = preText.replace(/(\s+)/gm, " ");
 
-      if (preText.length > conLength) preText = '...' + preText.substr(preText.length - conLength + 3, conLength - 3)
-      else preText = preText.substr(0, conLength)
+      if (preText.length > conLength) {
+        preText = '...' + preText.substr(preText.length - conLength + 3, conLength - 3);
+      }
+      else {
+        preText = preText.substr(0, conLength);
+      }
 
-      posText = text.substr(result.index + result.text.length)
+      posText = text.substr(result.index + result.text.length);
       posText = posText.replace(/(\r\n|\n|\r)/gm, " ");
       posText = posText.replace(/(\s+)/gm, " ");
 
-      if (posText.length > conLength) posText = posText.substr(0, conLength - 3) + '...';
-      else posText = posText.substr(0, conLength)
+      if (posText.length > conLength) {
+        posText = posText.substr(0, conLength - 3) + '...';
+      }
+      else {
+        posText = posText.substr(0, conLength);
+      }
 
       result.concordance = preText + result.text + posText;
       return new chrono.ParseResult(result);
-    }
+    };
 
 
     /**
      * Parser.exec - Parse the text for one matching index.
      * @return { CNResult or NULL} 
      */
-    parser.exec = function () {
+    parser.exec = function() {
       if (searchingFinished) return null;
 
       //Search for the pattern
@@ -281,11 +287,9 @@
       var matchedIndex = index + searchingIndex;
       var result = this.extract(text, matchedIndex);
       if (result) {
-
         if (searchingResults.length > 0) {
           var oldResult = searchingResults[searchingResults.length - 1];
           var overlapResult = this.checkOverlapResult(text, oldResult, result);
-
           result = overlapResult || result;
         }
 
@@ -307,19 +311,17 @@
       searchingText = searchingText.substr(index + 1);
       searchingIndex = matchedIndex + 1;
       return result;
-    }
+    };
 
     /**
      * Parser.execAll - Parse the whole text.
      */
-    parser.execAll = function () {
+    parser.execAll = function() {
       while (!this.finished()) this.exec();
-    }
+    };
 
     return parser;
   }
 
-
-
-  chrono.Parser = Parser;
+  exports.Parser = Parser;
 })();
