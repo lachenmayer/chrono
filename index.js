@@ -4,9 +4,8 @@
 // license : MIT
 (function () {
 
-  var Parser = require('./parsers/Parser.js').Parser;
-  exports.Parser = Parser;
-
+  exports.Parser = require('./parsers/Parser.js').Parser;
+  exports.ParseResult = require('./parsers/ParseResult.js').ParseResult;
 
   var chrono = {};
   chrono.parsers = {};

@@ -43,9 +43,6 @@
         ok(parser, 'Create Parser');
         ok(!parser.finished(), 'Init Value');
 
-        debugger
-
-        //
         var extract_called = 0;
         var expected_result = new chrono.ParseResult({ start:{}, text:'', index:0 });
         parser.pattern = function () { return /pattern/ }

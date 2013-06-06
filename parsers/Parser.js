@@ -298,9 +298,13 @@
           result = timedResult || result;
         }
 
-        if (result.start.hour === undefined) result.startDate = moment(result.startDate).sod().hours(12).toDate();
+        if (result.start.hour === undefined) {
+          result.startDate = moment(result.startDate).startOf('day').hours(12).toDate();
+        }
 
-        if (result.end && result.end.hour === undefined) result.endDate = moment(result.endDate).sod().hours(12).toDate();
+        if (result.end && result.end.hour === undefined) {
+          result.endDate = moment(result.endDate).startOf('day').hours(12).toDate();
+        }
 
         this.extractConcordance(text, result);
 
