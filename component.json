@@ -11,7 +11,8 @@
     "index.js",
     "parsers/Parser.js",
     "parsers/ParseResult.js",
-    "parsers/DateComponents.js"
+    "parsers/DateComponents.js",
+    "parsers/EN/DayOfWeekParser.js"
   ],
   "license": "MIT"
 }

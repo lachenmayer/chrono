@@ -7,8 +7,9 @@
   exports.Parser = require('./parsers/Parser.js').Parser;
   exports.ParseResult = require('./parsers/ParseResult.js').ParseResult;
 
-  var chrono = {};
-  chrono.parsers = {};
+  exports.parsers = {
+    DayOfWeekParser: require('./parsers/EN/DayOfWeekParser.js').DayOfWeekParser
+  };
 
   exports.parse = function(text, referenceDate, options) {
     var parser = this.IntegratedParser(text, referenceDate, options);
