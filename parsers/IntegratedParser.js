@@ -1,6 +1,6 @@
-(function () {
+(function() {
 
-  function IntegratedParser(text, ref, opt, parserTypes){
+  function IntegratedParser(text, ref, opt, parserTypes) {
 
     opt = opt || {};
     ref = ref || new Date();
@@ -12,9 +12,8 @@
     var results = [];
 
     //Initialize The Parsers
-    for(var i=0; i<parserTypes.length;i++){
-      if(chrono.parsers[parserTypes[i]])
-    parsers.push(new chrono.parsers[parserTypes[i]] (text, ref, opt) );
+    for (var i = 0; i < parserTypes.length; i++) {
+      if (chrono.parsers[parserTypes[i]]) parsers.push(new chrono.parsers[parserTypes[i]](text, ref, opt));
     }
 
     parser.results = function() {
@@ -26,67 +25,63 @@
     };
 
     parser.exec = function() {
-      if(currentParserIndex >= parsers.length) return;
+      if (currentParserIndex >= parsers.length) return;
 
-      var currenParser = parsers[currentParserIndex];
-      var result = currenParser.exec();
+      var currentParser = parsers[currentParserIndex];
+      var result = currentParser.exec();
 
-      if(result) insertResult (results, result);
+      if (result) insertResult(results, result);
 
-      if(currenParser.finished()){
+      if (currentParser.finished()) {
         currentParserIndex++;
       }
       return result;
-    }
+    };
 
     return parser;
   }
 
-  function insertResult(results, newResult){
+  function insertResult(results, newResult) {
 
     //Find the place in the array that this result is belong to
     // Change to binary search later.
     var index = 0;
-    while(index < results.length && results[index].index < newResult.index) index++;
+    while (index < results.length && results[index].index < newResult.index) index++;
 
-    if(index < results.length){
+    if (index < results.length) {
 
       //Checking conflict with other results on the RIGHT side
       var overlapped_index = index;
-      while(overlapped_index < results.length && results[overlapped_index].index < newResult.index + newResult.text.length)
-      {
+      while (overlapped_index < results.length && results[overlapped_index].index < newResult.index + newResult.text.length) {
         //Comapare length
         // If old value is longer, discard the newResult. 
         // SKIP the remaining operation
-        if( results[overlapped_index].text.length >= newResult.text.length) return;
+        if (results[overlapped_index].text.length >= newResult.text.length) return;
         overlapped_index++;
       }
 
-      results.splice(index,overlapped_index-index);
+      results.splice(index, overlapped_index - index);
     }
 
-    if(index-1 >= 0){
+    if (index - 1 >= 0) {
 
       //Checking conflict with other results on the LEFT side
-      var oldResult = results[index-1];
-      if(newResult.index < (oldResult.index + oldResult.text.length)){
+      var oldResult = results[index - 1];
+      if (newResult.index < (oldResult.index + oldResult.text.length)) {
 
         //Comapare length
         // If old value is longer, discard the newResult.
         // If new value is longer, discard the oldResult.
-        if(oldResult.text.length >= newResult.text.length) return;
-        else{
-          results.splice(index-1,1);
-          index = index-1;
-        }
+        if (oldResult.text.length >= newResult.text.length) return;
+        results.splice(index - 1, 1);
+        index = index - 1;
       }
     }
 
-    results.splice(index,0,newResult);
+    results.splice(index, 0, newResult);
     return results;
   }
 
-  chrono.IntegratedParser = IntegratedParser;
+  exports.IntegratedParser = IntegratedParser;
 
 })();
-
