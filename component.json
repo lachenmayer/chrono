@@ -7,6 +7,6 @@
   "dependencies": {
     "component/moment": "*"
   },
-  "scripts": ["index.js"],
+  "scripts": ["index.js", "parsers/Parser.js"],
   "license": "MIT"
 }

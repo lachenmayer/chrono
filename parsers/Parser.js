@@ -42,7 +42,7 @@
    */
   function Parser(text, ref, opt) {
 
-    var moment = require('component-moment');
+    var moment = require('moment');
 
     var searchingIndex = 0;
     var searchingText = text;
