@@ -12,7 +12,7 @@ A natural language date parser in Javascript.
 
 ### Browser
 
-    <script src="https://raw.github.com/berryboy/chrono/master/chrono.min.js"></script>
+    component install
 
 ## USAGE
 

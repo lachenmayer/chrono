@@ -8,7 +8,7 @@
     ref = ref || new Date();
     parserTypes = parserTypes || Object.keys(allParsers);
 
-    var parser = chrono.Parser(text, ref, opt);
+    var parser = require('./Parser.js').Parser(text, ref, opt);
     var currentParserIndex = 0;
     var parsers = [];
     var results = [];
