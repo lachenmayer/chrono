@@ -32,6 +32,8 @@
 
 (function() {
 
+  var ParseResult = require('./ParseResult.js').ParseResult;
+
   /**
    * Parser - Create a parser object
    *
@@ -106,7 +108,7 @@
       var mergedText = result1.text + textBetween + result2.text;
 
       if (moment(result2.startDate).diff(moment(result1.startDate)) > 0) {
-        return new chrono.ParseResult({
+        return new ParseResult({
           index: result1.index,
           start: result1.start,
           end: result2.start,
@@ -114,7 +116,7 @@
           referenceDate: result1.referenceDate,
         });
       } else {
-        return new chrono.ParseResult({
+        return new ParseResult({
           index: result1.index,
           start: result2.start,
           end: result1.start,
@@ -180,13 +182,13 @@
       if (!matchedTokens || text.indexOf(matchedTokens[0]) !== 0) {
         //Time in POINT format.
         // Return
-        if (typeof (result.end && result.end.hour) === 'undefined') {
+        if (result.end && typeof result.end.hour === 'undefined') {
           result.end.hour = hour;
           result.end.minute = minute;
           result.end.second = second;
         }
 
-        return new chrono.ParseResult(result);
+        return new ParseResult(result);
       }
 
       //Time in RANGE format. 
@@ -229,7 +231,7 @@
         result.end.second = second;
       }
 
-      return new chrono.ParseResult(result);
+      return new ParseResult(result);
     };
 
     /**
@@ -265,7 +267,7 @@
       }
 
       result.concordance = preText + result.text + posText;
-      return new chrono.ParseResult(result);
+      return new ParseResult(result);
     };
 
 

@@ -17,7 +17,12 @@
     "parsers/EN/GeneralDateParser.js",
     "parsers/EN/InternationalStandardParser.js",
     "parsers/EN/MonthNameLittleEndianParser.js",
-    "parsers/EN/SlashParser.js"
+    "parsers/EN/MonthNameMiddleEndianParser.js",
+    "parsers/EN/SlashParser.js",
+    "parsers/JP/JPGeneralDateParser.js",
+    "parsers/JP/JPStandardDateParser.js",
+    "parsers/TH/THDayOfWeekParser.js",
+    "parsers/TH/THGeneralDateParser.js"
   ],
   "license": "MIT"
 }
