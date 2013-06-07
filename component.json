@@ -9,10 +9,15 @@
   },
   "scripts": [
     "index.js",
+    "parsers/DateComponents.js",
+    "parsers/IntegratedParser.js",
     "parsers/Parser.js",
     "parsers/ParseResult.js",
-    "parsers/DateComponents.js",
-    "parsers/EN/DayOfWeekParser.js"
+    "parsers/EN/DayOfWeekParser.js",
+    "parsers/EN/GeneralDateParser.js",
+    "parsers/EN/InternationalStandardParser.js",
+    "parsers/EN/MonthNameLittleEndianParser.js",
+    "parsers/EN/SlashParser.js"
   ],
   "license": "MIT"
 }

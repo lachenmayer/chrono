@@ -8,8 +8,16 @@
   exports.ParseResult = require('./parsers/ParseResult.js').ParseResult;
 
   exports.parsers = {
-    DayOfWeekParser: require('./parsers/EN/DayOfWeekParser.js').DayOfWeekParser
+    DayOfWeekParser: require('./parsers/EN/DayOfWeekParser.js').DayOfWeekParser,
+    GeneralDateParser: require('./parsers/EN/GeneralDateParser.js').GeneralDateParser,
+    InternationalStandardParser: require('./parsers/EN/InternationalStandardParser.js').InternationalStandardParser,
+    MonthNameLittleEndianParser: require('./parsers/EN/MonthNameLittleEndianParser.js').MonthNameLittleEndianParser,
+    SlashParser: require('./parsers/EN/SlashParser.js').SlashParser
   };
+
+  var integratedParser = require('./parsers/IntegratedParser.js');
+  integratedParser.setParsers(exports.parsers);
+  exports.IntegratedParser = integratedParser.IntegratedParser;
 
   exports.parse = function(text, referenceDate, options) {
     var parser = this.IntegratedParser(text, referenceDate, options);

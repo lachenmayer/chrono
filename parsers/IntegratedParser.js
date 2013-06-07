@@ -1,10 +1,12 @@
 (function() {
 
+  var allParsers;
+
   function IntegratedParser(text, ref, opt, parserTypes) {
 
     opt = opt || {};
     ref = ref || new Date();
-    parserTypes = parserTypes || Object.keys(chrono.parsers);
+    parserTypes = parserTypes || Object.keys(allParsers);
 
     var parser = chrono.Parser(text, ref, opt);
     var currentParserIndex = 0;
@@ -13,7 +15,7 @@
 
     //Initialize The Parsers
     for (var i = 0; i < parserTypes.length; i++) {
-      if (chrono.parsers[parserTypes[i]]) parsers.push(new chrono.parsers[parserTypes[i]](text, ref, opt));
+      if (allParsers[parserTypes[i]]) parsers.push(new allParsers[parserTypes[i]](text, ref, opt));
     }
 
     parser.results = function() {
@@ -82,6 +84,9 @@
     return results;
   }
 
+  exports.setParsers = function(parsers) {
+    allParsers = parsers;
+  };
   exports.IntegratedParser = IntegratedParser;
 
 })();
